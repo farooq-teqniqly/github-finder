@@ -108,6 +108,14 @@ Choose a globally unique name for your Static Web App (e.g., `my-github-finder-1
 
 **Important:** Do not use generic names like `github-finder` as they are likely already taken. Check availability by attempting to create the resource or use a unique identifier.
 
+#### 4. VITE_GITHUB_API_URL
+
+Set this to the Github API base URL:
+
+```text
+https://api.github.com
+```
+
 ### Workflow Triggers
 
 The deployment workflow runs automatically on:
