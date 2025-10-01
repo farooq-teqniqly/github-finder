@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Col, Form, Row, Card, Image } from "react-bootstrap";
-import { FaGithubAlt } from "react-icons/fa";
+import { Button, Col, Form, Row } from "react-bootstrap";
+
 import { fetchGithubUser } from "../../api/github";
+import { UserCard } from "../UserCard/UserCard";
 
 export const UserSearch = () => {
   const [username, setUsername] = useState("");
@@ -48,42 +49,7 @@ export const UserSearch = () => {
       {data && (
         <Row>
           <Col md={4}>
-            <Card>
-              <Card.Header className="d-flex align-items-center">
-                <Image
-                  src={data.avatar_url}
-                  alt={data.name || data.login}
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    marginRight: "10px",
-                    flexShrink: 0,
-                  }}
-                />
-                <div className="flex-grow-1" style={{ minWidth: 0 }}>
-                  <div className="fw-bold text-break">
-                    {data.name || data.login}
-                  </div>
-                </div>
-              </Card.Header>
-              <Card.Body>
-                <div>
-                  <p>{data.bio || "The user has not entered any bio."}</p>
-                </div>
-              </Card.Body>
-              <Card.Footer>
-                <Button
-                  href={data.html_url}
-                  variant="primary"
-                  type="submit"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaGithubAlt className="mx-2"></FaGithubAlt>
-                  View Github Profile
-                </Button>
-              </Card.Footer>
-            </Card>
+            <UserCard user={data}></UserCard>
           </Col>
         </Row>
       )}
