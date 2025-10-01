@@ -1,6 +1,6 @@
-# React IMDB Clone - Azure Deployment
+# Github Finder - Azure Deployment
 
-This project is a React-based IMDB clone that can be deployed to Azure Static Web App using Infrastructure as Code (Bicep) and GitHub Actions for CI/CD.
+Github Finder is a React-based app that can be used to lookup Github users' profiles. It can be deployed to an Azure Static Web App using Infrastructure as Code (Bicep) and GitHub Actions for CI/CD.
 
 ## Prerequisites
 
@@ -90,7 +90,7 @@ Create a service principal and get the credentials:
 
 ```powershell
 az ad sp create-for-rbac `
-  --name "imdb-clone-sp" `
+  --name "github-finder-app-sp" `
   --role Contributor `
   --scopes /subscriptions/YOUR_SUBSCRIPTION_ID `
   --sdk-auth
@@ -100,13 +100,13 @@ Copy the entire JSON output and paste it as the secret value for `AZURE_CREDENTI
 
 #### 2. RESOURCE_GROUP_NAME
 
-Set this to the name of the resource group you want to use (e.g., `imdb-clone-rg`).
+Set this to the name of the resource group you want to use (e.g., `github-finder-rg`).
 
 #### 3. STATIC_WEB_APP_NAME
 
-Choose a globally unique name for your Static Web App (e.g., `my-imdb-clone-12345`). Static Web App names must be unique across all Azure customers worldwide. Use a combination of your project name, a random number, or your username to ensure uniqueness.
+Choose a globally unique name for your Static Web App (e.g., `my-github-finder-12345`). Static Web App names must be unique across all Azure customers worldwide. Use a combination of your project name, a random number, or your username to ensure uniqueness.
 
-**Important:** Do not use generic names like `imdb-clone` as they are likely already taken. Check availability by attempting to create the resource or use a unique identifier.
+**Important:** Do not use generic names like `github-finder` as they are likely already taken. Check availability by attempting to create the resource or use a unique identifier.
 
 ### Workflow Triggers
 
