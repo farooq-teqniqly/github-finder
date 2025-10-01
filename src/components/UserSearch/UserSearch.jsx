@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Col, Form, Row, Card, Image } from "react-bootstrap";
 import { FaGithubAlt } from "react-icons/fa";
+import { fetchGithubUser } from "../../api/github";
 
 export const UserSearch = () => {
   const [username, setUsername] = useState("");
@@ -9,17 +10,7 @@ export const UserSearch = () => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["users", submittedUsername],
-    queryFn: async () => {
-      const res = await fetch(
-        `${import.meta.env.VITE_GITHUB_API_URL}/users/${submittedUsername}`
-      );
-
-      if (!res.ok) {
-        throw new Error("User not found.");
-      }
-
-      return await res.json();
-    },
+    queryFn: () => fetchGithubUser(submittedUsername),
     enabled: !!submittedUsername,
   });
 
