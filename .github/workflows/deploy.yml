@@ -65,3 +65,5 @@ jobs:
           app_location: "/"
           api_location: ""
           output_location: "dist"
+        env:
+          VITE_GITHUB_API_URL: ${{ secrets.VITE_GITHUB_API_URL }}
