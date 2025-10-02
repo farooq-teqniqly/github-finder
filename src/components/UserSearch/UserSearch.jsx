@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
@@ -10,6 +10,12 @@ export const UserSearch = () => {
   const [username, setUsername] = useState("");
   const [submittedUsername, setSubmittedUserName] = useState("");
   const [recentUsers, setRecentUsers] = useState([]);
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["users", submittedUsername],
@@ -45,6 +51,7 @@ export const UserSearch = () => {
           <Col md={3}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Control
+                ref={inputRef}
                 type="text"
                 placeholder="Enter Github username"
                 value={username}
