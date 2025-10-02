@@ -9,13 +9,21 @@ import { RecentSearches } from "../RecentSearches/RecentSearches";
 export const UserSearch = () => {
   const [username, setUsername] = useState("");
   const [submittedUsername, setSubmittedUserName] = useState("");
-  const [recentUsers, setRecentUsers] = useState([]);
+
+  const [recentUsers, setRecentUsers] = useState(() => {
+    const stored = localStorage.getItem("recentUsers");
+    return stored ? JSON.parse(stored) : [];
+  });
 
   const inputRef = useRef(null);
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("recentUsers", JSON.stringify(recentUsers));
+  }, [recentUsers]);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["users", submittedUsername],
