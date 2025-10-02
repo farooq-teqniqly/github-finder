@@ -1,19 +1,25 @@
-import { Col, ListGroup, Row } from "react-bootstrap";
-import { FaClock, FaUser } from "react-icons/fa";
+import { Button, Col, ListGroup, Row } from "react-bootstrap";
+import { FaClock, FaUser, FaTrash } from "react-icons/fa";
 import { useQueryClient } from "@tanstack/react-query";
 import { fetchGithubUser } from "../../api/github";
 
-export const RecentSearches = ({ users, onSelectUser }) => {
+export const RecentSearches = ({
+  users,
+  onSelectUser,
+  onDeleteRecentSearches,
+}) => {
   const queryClient = useQueryClient();
 
   return (
     <>
       <Row>
-        <Col md={1}>
-          <FaClock></FaClock>
-        </Col>
         <Col md={3}>
           <h3>Recent Searches</h3>
+        </Col>
+        <Col>
+          <Button variant="danger" onClick={onDeleteRecentSearches}>
+            <FaTrash></FaTrash>
+          </Button>
         </Col>
       </Row>
       <Row>

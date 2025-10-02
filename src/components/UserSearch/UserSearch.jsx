@@ -105,6 +105,7 @@ export const UserSearch = () => {
               setUsername(user);
               setSubmittedUserName(user);
             }}
+            onDeleteRecentSearches={() => setRecentUsers([])}
           ></RecentSearches>
         </div>
       )}
