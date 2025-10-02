@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Col, Form, Row, ListGroup } from "react-bootstrap";
-import { FaClock, FaUser } from "react-icons/fa";
+import { Button, Col, Form, Row } from "react-bootstrap";
 
 import { fetchGithubUser } from "../../api/github";
 import { UserCard } from "../UserCard/UserCard";
+import { RecentSearches } from "../RecentSearches/RecentSearches";
 
 export const UserSearch = () => {
   const [username, setUsername] = useState("");
@@ -69,35 +69,15 @@ export const UserSearch = () => {
       )}
 
       {recentUsers.length > 0 && (
-        <>
-          <Row className="mt-3">
-            <Col md={1}>
-              <FaClock></FaClock>
-            </Col>
-            <Col md={3}>
-              <h3>Recent Searches</h3>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={4}>
-              <ListGroup>
-                {recentUsers.map((user) => (
-                  <ListGroup.Item
-                    key={user}
-                    action
-                    onClick={() => {
-                      setUsername(user);
-                      setSubmittedUserName(user);
-                    }}
-                  >
-                    <FaUser className="m-3"></FaUser>
-                    {user}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            </Col>
-          </Row>
-        </>
+        <div className="mt-5">
+          <RecentSearches
+            users={recentUsers}
+            onSelectUser={(user) => {
+              setUsername(user);
+              setSubmittedUserName(user);
+            }}
+          ></RecentSearches>
+        </div>
       )}
     </>
   );
