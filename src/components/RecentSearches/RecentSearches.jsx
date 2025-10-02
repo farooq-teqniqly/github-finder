@@ -1,5 +1,5 @@
 import { Button, Col, ListGroup, Row } from "react-bootstrap";
-import { FaClock, FaUser, FaTrash } from "react-icons/fa";
+import { FaUser, FaTrash } from "react-icons/fa";
 import { useQueryClient } from "@tanstack/react-query";
 import { fetchGithubUser } from "../../api/github";
 
