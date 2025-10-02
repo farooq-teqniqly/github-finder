@@ -31,6 +31,18 @@ export const UserSearch = () => {
     enabled: !!submittedUsername,
   });
 
+  useEffect(() => {
+    if (data && submittedUsername) {
+      setRecentUsers((prev) => {
+        const updated = [
+          submittedUsername,
+          ...prev.filter((u) => u !== submittedUsername),
+        ];
+        return updated.slice(0, 5);
+      });
+    }
+  }, [data, submittedUsername]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -41,11 +53,6 @@ export const UserSearch = () => {
     }
 
     setSubmittedUserName(trimmed);
-
-    setRecentUsers((prev) => {
-      const updated = [trimmed, ...prev.filter((u) => u !== trimmed)];
-      return updated.slice(0, 5);
-    });
   };
 
   return (
