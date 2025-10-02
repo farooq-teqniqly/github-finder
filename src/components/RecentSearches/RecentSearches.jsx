@@ -1,7 +1,11 @@
 import { Col, ListGroup, Row } from "react-bootstrap";
 import { FaClock, FaUser } from "react-icons/fa";
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchGithubUser } from "../../api/github";
 
 export const RecentSearches = ({ users, onSelectUser }) => {
+  const queryClient = useQueryClient();
+
   return (
     <>
       <Row>
@@ -20,6 +24,12 @@ export const RecentSearches = ({ users, onSelectUser }) => {
                 key={user}
                 action
                 onClick={() => onSelectUser(user)}
+                onMouseEnter={() => {
+                  queryClient.prefetchQuery({
+                    queryKey: ["users", user],
+                    queryFn: () => fetchGithubUser(user),
+                  });
+                }}
               >
                 <FaUser className="m-3"></FaUser>
                 {user}
