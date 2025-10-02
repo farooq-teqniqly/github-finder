@@ -15,6 +15,8 @@ export const UserSearch = () => {
     return stored ? JSON.parse(stored) : [];
   });
 
+  const [disabled, setDisabled] = useState(false);
+
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -43,6 +45,10 @@ export const UserSearch = () => {
     }
   }, [data, submittedUsername]);
 
+  useEffect(() => {
+    setDisabled(isLoading);
+  }, [isLoading]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -66,6 +72,7 @@ export const UserSearch = () => {
           <Col md={3}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Control
+                disabled={disabled}
                 ref={inputRef}
                 type="text"
                 placeholder="Enter Github username"
@@ -75,7 +82,7 @@ export const UserSearch = () => {
             </Form.Group>
           </Col>
           <Col>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" disabled={disabled}>
               Search
             </Button>
           </Col>
