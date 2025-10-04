@@ -90,7 +90,11 @@ export const UserCard = ({ user }) => {
         </Button>
 
         {showButton && !isLoading && (
-          <Button className="mx-2" variant="secondary" onClick={handleFollow}>
+          <Button
+            className="mx-2"
+            variant={isFollowing ? "danger" : "secondary"}
+            onClick={handleFollow}
+          >
             {isFollowing ? (
               <>
                 <FaUserMinus className="mx-2"></FaUserMinus>
