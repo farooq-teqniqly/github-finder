@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { useDebounce } from "use-debounce";
+import { Button, Col, Form, Row, ListGroup, Image } from "react-bootstrap";
 
-import { fetchGithubUser } from "../../api/github";
+import { fetchGithubUser, searchGithubUser } from "../../api/github";
 import { UserCard } from "../UserCard/UserCard";
 import { RecentSearches } from "../RecentSearches/RecentSearches";
 
@@ -16,6 +17,9 @@ export const UserSearch = () => {
   });
 
   const [disabled, setDisabled] = useState(false);
+
+  const [debouncedUsername] = useDebounce(username, 300);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -31,10 +35,18 @@ export const UserSearch = () => {
     localStorage.setItem("recentUsers", JSON.stringify(recentUsers));
   }, [recentUsers]);
 
-  const { data, isLoading, isError, error } = useQuery({
+  // Query to fetch a specific user.
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["users", submittedUsername],
     queryFn: () => fetchGithubUser(submittedUsername),
     enabled: !!submittedUsername,
+  });
+
+  // Query to fetch suggestions for user search.
+  const { data: suggestions } = useQuery({
+    queryKey: ["github-user-suggestions", debouncedUsername],
+    queryFn: () => searchGithubUser(debouncedUsername),
+    enabled: debouncedUsername.length > 0,
   });
 
   useEffect(() => {
@@ -83,8 +95,44 @@ export const UserSearch = () => {
                 type="text"
                 placeholder="Enter Github username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setUsername(val);
+                  setShowSuggestions(val.trim().length > 1);
+                }}
               />
+              {showSuggestions && suggestions?.length > 1 && (
+                <ListGroup className="mt-3">
+                  {suggestions.slice(0, 5).map((user) => (
+                    <ListGroup.Item
+                      key={user.login}
+                      action
+                      onClick={() => {
+                        setUsername(user.login);
+                        setShowSuggestions(false);
+
+                        if (submittedUsername !== user.login) {
+                          setSubmittedUserName(user.login);
+                        } else {
+                          refetch();
+                        }
+                      }}
+                    >
+                      <Image
+                        src={user.avatar_url}
+                        alt={user.name || user.login}
+                        style={{
+                          width: "32px",
+                          height: "32px",
+                          marginRight: "10px",
+                          flexShrink: 0,
+                        }}
+                      />
+                      {user.login}
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              )}
             </Form.Group>
           </Col>
           <Col>
