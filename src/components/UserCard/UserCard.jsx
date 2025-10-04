@@ -6,9 +6,11 @@ import {
   unfollowUser,
 } from "../../api/github";
 import { FaGithubAlt, FaUserMinus, FaUserPlus } from "react-icons/fa";
+import { Toaster } from "../Toaster/Toaster";
+import { useState } from "react";
 
 export const UserCard = ({ user }) => {
-  // Query to check if user is following.
+  // Query to check if a user is following.
   const {
     data: isFollowing,
     refetch,
@@ -23,11 +25,11 @@ export const UserCard = ({ user }) => {
   const followMutation = useMutation({
     mutationFn: () => followUser(user.login),
     onSuccess: () => {
-      console.log(`You are now following ${user.login}.`);
+      setToastMessage(`You are now following ${user.login}.`);
       refetch();
     },
     onError: (error) => {
-      console.error(error.message);
+      setToastMessage(error.message);
     },
   });
 
@@ -35,11 +37,11 @@ export const UserCard = ({ user }) => {
   const unfollowMutation = useMutation({
     mutationFn: () => unfollowUser(user.login),
     onSuccess: () => {
-      console.log(`You are no longer following ${user.login}.`);
+      setToastMessage(`You are no longer following ${user.login}.`);
       refetch();
     },
     onError: (error) => {
-      console.error(error.message);
+      setToastMessage(error.message);
     },
   });
 
@@ -52,8 +54,19 @@ export const UserCard = ({ user }) => {
     followMutation.mutate();
   };
 
+  const [toastMessage, setToastMessage] = useState("");
+
   const showButton =
     import.meta.env.VITE_FEATURE_ENABLE_FOLLOWING.toLowerCase() === "true";
+
+  if (toastMessage && toastMessage.trim().length > 0) {
+    return (
+      <Toaster
+        message={toastMessage}
+        onClose={() => setToastMessage("")}
+      ></Toaster>
+    );
+  }
 
   return (
     <Card>
