@@ -116,6 +116,32 @@ Set this to the Github API base URL:
 https://api.github.com
 ```
 
+#### 5. VITE_FEATURE_ENABLE_FOLLOWING
+
+Set this to `true` to enable the "Following" feature in the app. Setting it to `false` will disable this feature.
+
+> ⚠️ **Warning:** The "Following" feature should only be enabled for local development. Enabling it in production may expose additional API usage or personal data. Review your requirements before setting this to `true` in a production environment.
+
+#### 6. VITE_GITHUB_TOKEN (Required for Follow/Unfollow Feature)
+
+If you have enabled the following feature (`VITE_FEATURE_ENABLE_FOLLOWING=true`), you need to create a GitHub Personal Access Token with the required permissions.
+
+**Creating a GitHub Personal Access Token:**
+
+1. Go to [GitHub Settings > Developer settings > Personal access tokens > Tokens (classic)](https://github.com/settings/tokens)
+2. Click **"Generate new token"** → **"Generate new token (classic)"**
+3. Give your token a descriptive name (e.g., "GitHub Finder App")
+4. Set an appropriate expiration date
+5. Select the following scopes/permissions:
+   - ✅ **`read:user`** - Read ALL user profile data
+   - ✅ **`user:follow`** - Follow and unfollow users
+
+6. Click **"Generate token"**
+7. **Important:** Copy the token immediately as you won't be able to see it again
+8. Add the token as a repository secret named `VITE_GITHUB_TOKEN`
+
+> ⚠️ **Security Note:** Never commit your personal access token to the repository. Always use GitHub Secrets for production deployments and environment variables for local development.
+
 ### Workflow Triggers
 
 The deployment workflow runs automatically on:

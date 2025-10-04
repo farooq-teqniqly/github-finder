@@ -67,3 +67,4 @@ jobs:
           output_location: "dist"
         env:
           VITE_GITHUB_API_URL: ${{ secrets.VITE_GITHUB_API_URL }}
+          VITE_FEATURE_ENABLE_FOLLOWING: ${{ secrets.VITE_FEATURE_ENABLE_FOLLOWING }}
