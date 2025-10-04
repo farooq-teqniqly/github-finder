@@ -6,6 +6,7 @@ import { Button, Col, Form, Row, ListGroup, Image } from "react-bootstrap";
 import { fetchGithubUser, searchGithubUser } from "../../api/github";
 import { UserCard } from "../UserCard/UserCard";
 import { RecentSearches } from "../RecentSearches/RecentSearches";
+import { SuggestionDropdown } from "../SuggestionDropdown/SuggestionDropdown";
 
 export const UserSearch = () => {
   const [username, setUsername] = useState("");
@@ -102,36 +103,19 @@ export const UserSearch = () => {
                 }}
               />
               {showSuggestions && suggestions?.length > 1 && (
-                <ListGroup className="mt-3">
-                  {suggestions.slice(0, 5).map((user) => (
-                    <ListGroup.Item
-                      key={user.login}
-                      action
-                      onClick={() => {
-                        setUsername(user.login);
-                        setShowSuggestions(false);
+                <SuggestionDropdown
+                  suggestions={suggestions}
+                  onSelectUsername={(username) => {
+                    setUsername(username);
+                    setShowSuggestions(false);
 
-                        if (submittedUsername !== user.login) {
-                          setSubmittedUserName(user.login);
-                        } else {
-                          refetch();
-                        }
-                      }}
-                    >
-                      <Image
-                        src={user.avatar_url}
-                        alt={user.name || user.login}
-                        style={{
-                          width: "32px",
-                          height: "32px",
-                          marginRight: "10px",
-                          flexShrink: 0,
-                        }}
-                      />
-                      {user.login}
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
+                    if (submittedUsername !== username) {
+                      setSubmittedUserName(username);
+                    } else {
+                      refetch();
+                    }
+                  }}
+                ></SuggestionDropdown>
               )}
             </Form.Group>
           </Col>
