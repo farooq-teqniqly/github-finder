@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
-import { Button, Col, Form, Row, ListGroup, Image } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 
 import { fetchGithubUser, searchGithubUser } from "../../api/github";
 import { UserCard } from "../UserCard/UserCard";
