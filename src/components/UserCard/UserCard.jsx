@@ -91,6 +91,7 @@ export const UserCard = ({ user }) => {
 
         {showButton && !isLoading && (
           <Button
+            disabled={followMutation.isPending || unfollowMutation.isPending}
             className="mx-2"
             variant={isFollowing ? "danger" : "secondary"}
             onClick={handleFollow}
