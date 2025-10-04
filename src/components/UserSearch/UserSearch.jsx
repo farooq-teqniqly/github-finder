@@ -19,8 +19,12 @@ export const UserSearch = () => {
 
   const inputRef = useRef(null);
 
-  useEffect(() => {
+  const setFocus = () => {
     inputRef.current?.focus();
+  };
+
+  useEffect(() => {
+    setFocus();
   }, []);
 
   useEffect(() => {
@@ -59,6 +63,8 @@ export const UserSearch = () => {
     }
 
     setSubmittedUserName(trimmed);
+    setUsername("");
+    setFocus();
   };
 
   return (
@@ -105,7 +111,12 @@ export const UserSearch = () => {
               setUsername(user);
               setSubmittedUserName(user);
             }}
-            onDeleteRecentSearches={() => setRecentUsers([])}
+            onDeleteRecentSearches={() => {
+              setRecentUsers([]);
+              setSubmittedUserName("");
+              setUsername("");
+              setFocus();
+            }}
           ></RecentSearches>
         </div>
       )}
